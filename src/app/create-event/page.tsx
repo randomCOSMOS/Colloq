@@ -22,6 +22,7 @@ export default function CreateEvent() {
   
   const [platform, setPlatform] = useState('');
   const [meetingLink, setMeetingLink] = useState('');
+  const [note, setNote] = useState('');
   
   const [startDate, setStartDate] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -131,7 +132,7 @@ export default function CreateEvent() {
       showError(validationError);
       return;
     }
-
+  
     setLoading(true);
 
     try {
@@ -144,7 +145,7 @@ export default function CreateEvent() {
         tags,
         eventFormat,
         ...(eventFormat === 'in-person' || eventFormat === 'hybrid' ? { venue, address, mapLink } : {}),
-        ...(eventFormat === 'virtual' || eventFormat === 'hybrid' ? { platform, meetingLink } : {}),
+        ...(eventFormat === 'virtual' || eventFormat === 'hybrid' ? { platform, meetingLink, notes: note } : {}), // Include notes here
         startDateTime: new Date(`${startDate}T${startTime}`),
         endDateTime: new Date(`${finalEndDate}T${endTime}`),
         organizer: {
@@ -357,28 +358,26 @@ export default function CreateEvent() {
               {/* Virtual Fields */}
               {(eventFormat === 'virtual' || eventFormat === 'hybrid') && (
                 <div className="space-y-4 bg-blue-500/10 border border-blue-500/20 p-6 rounded-2xl">
-                  <h3 className="font-semibold text-white text-lg flex items-center gap-2">
-                    💻 Online Details
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Platform *</label>
-                      <select
-                        value={platform}
-                        onChange={(e) => setPlatform(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 outline-none transition-all"
-                      >
-                        <option value="" className="bg-gray-900">Select platform</option>
-                        <option value="Google Meet" className="bg-gray-900">Google Meet</option>
-                        <option value="Zoom" className="bg-gray-900">Zoom</option>
-                        <option value="Microsoft Teams" className="bg-gray-900">Microsoft Teams</option>
-                        <option value="Discord" className="bg-gray-900">Discord</option>
-                        <option value="YouTube Live" className="bg-gray-900">YouTube Live</option>
-                        <option value="Other" className="bg-gray-900">Other</option>
-                      </select>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Meeting Link</label>
+                    <h3 className="font-semibold text-white text-lg flex items-center gap-2">💻 Online Details</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Platform *</label>
+                        <select
+                            value={platform}
+                            onChange={(e) => setPlatform(e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 outline-none transition-all"
+                        >
+                            <option value="" className="bg-gray-900">Select platform</option>
+                            <option value="Google Meet" className="bg-gray-900">Google Meet</option>
+                            <option value="Zoom" className="bg-gray-900">Zoom</option>
+                            <option value="Microsoft Teams" className="bg-gray-900">Microsoft Teams</option>
+                            <option value="Discord" className="bg-gray-900">Discord</option>
+                            <option value="YouTube Live" className="bg-gray-900">YouTube Live</option>
+                            <option value="Other" className="bg-gray-900">Other</option>
+                        </select>
+                        </div>
+                        <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Meeting Link (optional)</label>
                         <input
                             type="url"
                             value={meetingLink}
@@ -388,7 +387,7 @@ export default function CreateEvent() {
                         />
                         </div>
 
-                        <div>
+                        <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-300 mb-2">Notes (Optional)</label>
                         <textarea
                             value={note}
@@ -397,8 +396,8 @@ export default function CreateEvent() {
                             className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 outline-none transition-all"
                             placeholder="Additional information about the meeting (e.g., passcodes, agenda)"
                         />
+                        </div>
                     </div>
-                  </div>
                 </div>
               )}
             </div>

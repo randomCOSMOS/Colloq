@@ -1,3 +1,4 @@
+// @ts-ignore
 import './globals.css';
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
@@ -23,6 +24,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={inter.className}>
+      <head>
+        <link rel="icon" type="image/png" href="/images/favicon.png"/>
+      </head>
       <body className="antialiased">
         <SessionProvider session={session}>
           <Navbar />
