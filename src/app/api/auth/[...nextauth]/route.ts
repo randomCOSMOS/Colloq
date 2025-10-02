@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  debug: true, // Enable debug mode
+  debug: false, // Enable debug mode
 };
 
 const handler = NextAuth(authOptions);
